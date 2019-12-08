@@ -27,8 +27,8 @@ class fpWalk():
         self.my_hexapod.servos[servo].set_position(pos)
 
     def runLoop(self,servoArray):
-        step = len(servoArray)/12
-        for x in range(0,len(servoArray)/12):
+        step = round(len(servoArray)/12)
+        for x in range(0,step):
             self.setPos("left_front_raise", servoArray[x])
             self.setPos("right_front_raise", servoArray[step+x])
             self.setPos("left_center_raise", servoArray[step*2+x])
