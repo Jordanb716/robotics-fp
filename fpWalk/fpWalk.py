@@ -1,4 +1,5 @@
 import yaml
+import time
 from hexapod import Hexapod_12DOF
 
 class fpWalk():
@@ -39,6 +40,7 @@ class fpWalk():
             self.setPos("right_center_rotate", servoArray[x+9])
             self.setPos("left_back_rotate", servoArray[x+10])
             self.setPos("right_back_rotate", servoArray[x+11])
+            time.sleep(0.01)
     
     """
     setupServos
