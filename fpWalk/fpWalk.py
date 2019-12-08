@@ -27,19 +27,20 @@ class fpWalk():
         self.my_hexapod.servos[servo].set_position(pos)
 
     def runLoop(self,servoArray):
-        for x in range(0,len(servoArray),12):
+        step = len(servoArray)/12
+        for x in range(0,len(servoArray)/12):
             self.setPos("left_front_raise", servoArray[x])
-            self.setPos("right_front_raise", servoArray[x+1])
-            self.setPos("left_center_raise", servoArray[x+2])
-            self.setPos("right_center_raise", servoArray[x+3])
-            self.setPos("left_back_raise", servoArray[x+4])
-            self.setPos("right_back_raise", servoArray[x+5])
-            self.setPos("left_front_rotate", servoArray[x+6])
-            self.setPos("right_front_rotate", servoArray[x+7])
-            self.setPos("left_center_rotate", servoArray[x+8])
-            self.setPos("right_center_rotate", servoArray[x+9])
-            self.setPos("left_back_rotate", servoArray[x+10])
-            self.setPos("right_back_rotate", servoArray[x+11])
+            self.setPos("right_front_raise", servoArray[step+x])
+            self.setPos("left_center_raise", servoArray[step*2+x])
+            self.setPos("right_center_raise", servoArray[step*3+x])
+            self.setPos("left_back_raise", servoArray[step*4+x])
+            self.setPos("right_back_raise", servoArray[step*5+x])
+            self.setPos("left_front_rotate", servoArray[step*6+x])
+            self.setPos("right_front_rotate", servoArray[step*7+x])
+            self.setPos("left_center_rotate", servoArray[step*8+x])
+            self.setPos("right_center_rotate", servoArray[step*9+x])
+            self.setPos("left_back_rotate", servoArray[step*10+x])
+            self.setPos("right_back_rotate", servoArray[step*11+x])
             time.sleep(0.01)
     
     """
