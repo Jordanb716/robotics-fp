@@ -16,22 +16,37 @@ class fpWalk():
 	backLeftRotate=[]
 	backRightRotate=[]
 
-	#def __init__(self):
-	#	self.my_hexapod = None
-	#	config = open('config_12DOF.yaml')
-	#	my_config = yaml.safe_load(config)
-	#	self.my_hexapod = Hexapod_12DOF(my_config)
+	def __init__(self):
+		self.my_hexapod = None
+		config = open('config_12DOF.yaml')
+		my_config = yaml.safe_load(config)
+		self.my_hexapod = Hexapod_12DOF(my_config)
 		
-	#def setPos(self, servo, pos):
-	#	self.my_hexapod.servos[servo].set_position(pos)
+	def setPos(self, servo, pos):
+		self.my_hexapod.servos[servo].set_position(pos)
 
-	#def runLoop(servoArray):
-	#	for 
-		
-	# setupServos
-	# Sets up a pattern for the servos to follow, uses lists for each action for each servo,
-	#	in centisecond intervals.
-	# returns a single list of each servo list appended together.
+	def runLoop(self,servoArray):
+		for x in range(0,len(servoArray),12):
+			self.setPos("left_front_raise", servoArray[x])
+			self.setPos("right_front_raise", servoArray[x+1])
+			self.setPos("left_center_raise", servoArray[x+2])
+			self.setPos("right_center_raise", servoArray[x+3])
+			self.setPos("left_back_raise", servoArray[x+4])
+			self.setPos("right_back_raise", servoArray[x+5])
+			self.setPos("left_front_rotate", servoArray[x+6])
+			self.setPos("right_front_rotate", servoArray[x+7])
+			self.setPos("left_center_rotate", servoArray[x+8])
+			self.setPos("right_center_rotate", servoArray[x+9])
+			self.setPos("left_back_rotate", servoArray[x+10])
+			self.setPos("right_back_rotate", servoArray[x+11])
+	
+	"""
+	setupServos
+	Sets up a pattern for the servos to follow, uses lists for each action for each servo,
+		in centisecond intervals.
+	returns a single list of each servo list appended together.
+	"""
+
 	def setupServos(self, pattern):
 		# Clear servo arrays
 		self.frontLeftRaise.clear()
