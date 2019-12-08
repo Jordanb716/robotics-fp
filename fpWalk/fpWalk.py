@@ -1,5 +1,10 @@
 import yaml
 import time
+import numpy as np
+import matplotlib.pyplot as plt
+import matplotlib as mpl
+from matplotlib.animation import FuncAnimation
+from fplanck import fokker_planck, boundary, gaussian_pdf
 from hexapod import Hexapod_12DOF
 
 class fpWalk():
@@ -22,9 +27,24 @@ class fpWalk():
         config = open('config_12DOF.yaml')
         my_config = yaml.safe_load(config)
         self.my_hexapod = Hexapod_12DOF(my_config)
+
+        nm = 1e-9
+        viscosity = 8e-4
+        radius = 50*nm
+        drag = 6*np.pi*viscosity*radius
+
+        L = 20*nm
+        F = lambda x: 5e-21*(np.sin(x/L) + 4)/L
+
+        sim = fokker_planck(temperature=300, drag=drag, extent=600*nm,
+            resolution=10*nm, boundary=boundary.periodic, force=F)
         
     def setPos(self, servo, pos):
         self.my_hexapod.servos[servo].set_position(pos)
+
+    def planckify(self, pattern, Nsteps):
+        time, Pt = sim.propagate_interval(pattern, 2e-3, Nsteps=Nsteps)
+        return time, Pt
 
     def runLoop(self,servoArray):
         step = round(len(servoArray)/12)
