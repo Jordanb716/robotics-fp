@@ -1,6 +1,5 @@
 import math
 import numpy as np
-import matplotlib.pyplot as plt
 import matplotlib as mpl
 from matplotlib.animation import FuncAnimation
 from fplanck import fokker_planck, boundary, gaussian_pdf
@@ -22,7 +21,11 @@ class fPattern():
 
     sim = []
 
-    def __init__(self):
+    servoPattern=[]
+    planckPdf=[]
+    planckPattern=[]
+
+    def __init__(self, inputPatternName, Nsteps):
         nm = 1e-9
         viscosity = 8e-4
         radius = 50*nm
@@ -33,9 +36,14 @@ class fPattern():
 
         self.sim = fokker_planck(temperature=300, drag=drag, extent=600*nm,
             resolution=10*nm, boundary=boundary.periodic, force=F)
+        
+        self.servoPattern = self.setupServos(inputPatternName)
+        self.planckPdf = self.funcify(self.servoPattern)
+        self.planckPattern = self.planckify(self.planckPdf, Nsteps)
+
     
-    def planckify(self, pattern, Nsteps):
-        time, Pt = self.sim.propagate_interval(pattern, 2e-3, Nsteps=Nsteps)
+    def planckify(self, pdf, Nsteps):
+        time, Pt = self.sim.propagate_interval(pdf, 2e-3, Nsteps=Nsteps)
         return time, Pt
 
     def funcify(self, pattern):
