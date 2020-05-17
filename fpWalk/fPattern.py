@@ -25,7 +25,7 @@ class fPattern():
     planckPdf=[]
     planckPattern=[]
 
-    def __init__(self, inputPatternName, Nsteps):
+    def __init__(self, inputPatternName, Nsteps, stopTime):
         nm = 1e-9
         viscosity = 8e-4
         radius = 50*nm
@@ -39,16 +39,16 @@ class fPattern():
         
         self.servoPattern = self.setupServos(inputPatternName)
         self.planckPdf = self.funcify(self.servoPattern)
-        self.planckPattern = self.planckify(self.planckPdf, Nsteps)
+        self.planckPattern = self.planckify(self.planckPdf, Nsteps, stopTime)
 
     
-    def planckify(self, pdf, Nsteps):
-        time, Pt = self.sim.propagate_interval(pdf, 2e-3, Nsteps=Nsteps)
+    def planckify(self, pdf, Nsteps, stopTime):
+        time, Pt = self.sim.propagate_interval(pdf, stopTime, Nsteps=Nsteps)
         return time, Pt
 
     def funcify(self, pattern):
         def pdf(*args):
-            values = np.ones_like(args[0])
+            values = np.ones_like(args)
             for i, _ in enumerate(args):
                 values *= pattern[i]
             return values
