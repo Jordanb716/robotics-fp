@@ -28,7 +28,3 @@ def runLoop(self,servoArray):
         self.setPos("left_back_rotate", servoArray[step*10+x])
         self.setPos("right_back_rotate", servoArray[step*11+x])
         time.sleep(0.01)
-
-# Start
-my_pattern = fPattern()
-my_pattern.setupServos('forward')

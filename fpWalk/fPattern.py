@@ -43,7 +43,7 @@ class fPattern():
 
     
     def planckify(self, pdf, Nsteps, stopTime):
-        time, Pt = self.sim.propagate_interval(pdf, stopTime, Nsteps=Nsteps)
+        time, Pt = self.sim.propagate_interval(pdf, stopTime, Nsteps=Nsteps, normalize=False)
         return time, Pt
 
     def funcify(self, pattern):
